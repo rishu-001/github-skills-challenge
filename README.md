@@ -253,6 +253,58 @@ The complete AIOps event flow is now working under the existing design:
 
 The producer, topic, consumer, and message roles are all now working as intended in the current architecture.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Task 6:
+
+## Execute the End-to-End Pipeline
+After investigating and correcting the workflow, I executed the complete AIOps pipeline to verify the full operational path from data ingestion to final output.
+
+### End-to-end flow demonstrated
+Operational Data → Anomaly Detection → Event → Producer → Topic → Consumer → AIOps Output
+
+### Verified execution result
+I ran the workflow using the repository’s sample data in `data/service_data.json`.
+
+Observed outcome:
+- `records_processed`: 10
+- `anomalies_detected`: 2
+- `events_consumed`: 2
+
+The final output shows two anomalies were detected and successfully consumed:
+- `2026-09-20T10:05:00` — `Payment service timeout`
+- `2026-09-20T10:06:00` — `Database connection timeout`
+
+### What was verified
+1. Operational data is processed.
+2. Anomalous behaviour is detected.
+3. An anomaly event is generated.
+4. The event is published by the producer.
+5. The event is stored on the topic.
+6. The event is consumed by the consumer.
+7. The final output represents the detected operational issue.
+
+### Role of each component in the workflow
+- Producer: `src/event_producer.py` publishes the anomaly event to the topic.
+- Topic: `src/event_topic.py` stores the in-memory event stream.
+- Consumer: `src/event_consumer.py` reads the message back from the topic.
+- Message: the anomaly object carrying the timestamp, service name, type, reasons, and source telemetry.
+
+### Final status
+The end-to-end pipeline now works successfully under the current architecture and confirms the complete AIOps event-processing flow.
+
 ---
 
 &copy; 2025 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)
