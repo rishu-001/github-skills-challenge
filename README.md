@@ -84,6 +84,37 @@ These values suggest a service degradation or failure state, where the applicati
 ### Summary
 The dataset shows a service that is healthy at first, then becomes unstable as latency, CPU, memory, and error logs all worsen together. This is the kind of pattern AIOps is designed to detect and alert on.
 
+
+
+
+
+
+
+Task 3:
+
+## Anomaly Detection Review
+Using the provided detector in `src/anomaly_detector.py`, the actual analysis of the sample data flags two abnormal records.
+
+### Anomalies detected
+- `2026-09-20T10:05:00`: flagged as `ANOMALY`
+  - Relevant metrics: `response_time_ms = 610`, `cpu_percent = 75`, `memory_percent = 70`
+  - Log info: `log_level = ERROR`, message = `Payment service timeout`
+  - Reason: `High response time`
+
+- `2026-09-20T10:06:00`: flagged as `ANOMALY`
+  - Relevant metrics: `response_time_ms = 640`, `cpu_percent = 94`, `memory_percent = 91`
+  - Log info: `log_level = ERROR`, message = `Database connection timeout`
+  - Reasons: `High response time`, `High CPU utilization`, `High memory utilization`
+
+### Expected anomaly missed?
+No clear expected anomaly was missed in this sample dataset. The abnormal records are obvious and are detected by the component as soon as the response time and resource thresholds are crossed.
+
+### Normal event incorrectly flagged?
+No normal event appears to have been incorrectly flagged. The records before `10:05:00` stay within stable ranges and do not trigger the rule set.
+
+### One limitation / improvement
+A simple threshold-based detector can miss gradual problems that do not cross a fixed threshold immediately. A better approach would be to add trend-based detection, such as comparing current values against recent service history, so the system can detect early warning signals before the metric spikes become severe.
+
 ---
 
 &copy; 2025 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)
