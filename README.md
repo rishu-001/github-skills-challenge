@@ -266,7 +266,7 @@ The producer, topic, consumer, and message roles are all now working as intended
 
 
 
-
+DO TSAK 8
 Task 6:
 
 ## Execute the End-to-End Pipeline
@@ -330,6 +330,37 @@ This indicates the end-to-end pipeline is functioning correctly and that the det
 
 ### Additional note
 The key requirement is that the producer and consumer use the same topic instance. This is the critical design detail that makes the message flow work in the current in-memory event simulation.
+
+Task 8:
+
+## Validate and Save Your Work
+Use the project checks and validation steps to confirm that the implementation behaves as expected before submitting the work.
+
+### Validation checklist
+Confirm that:
+- the operational data can be processed
+- anomaly detection behaves as expected
+- anomaly events are generated
+- events can move through the simulated event pipeline
+- consumers can process the generated events
+- the final AIOps workflow completes successfully
+
+### Validation result
+The project was validated by running the workflow against the provided dataset and confirming that:
+- `records_processed`: 10
+- `anomalies_detected`: 2
+- `events_consumed`: 2
+
+This confirms the pipeline completes successfully and the detected operational issue is reported in the final output.
+
+### Final review before submission
+1. Review all modified files.
+2. Confirm that only the required assessment edits are included.
+3. Confirm that the README documents the project scenario, analysis, findings, workflow correction, execution result, and reproduction steps.
+4. Save the final version of the project.
+5. Commit the changes with a clear commit message.
+6. Push the branch to GitHub.
+7. Confirm the repository reflects the final validated state.
 
 ---
 
