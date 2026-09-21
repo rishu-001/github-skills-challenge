@@ -305,6 +305,32 @@ The final output shows two anomalies were detected and successfully consumed:
 ### Final status
 The end-to-end pipeline now works successfully under the current architecture and confirms the complete AIOps event-processing flow.
 
+Task 7:
+
+## Reproduction Steps for Another User
+To reproduce this demonstration, another user can follow the same workflow used in this project.
+
+### Steps to reproduce
+1. Open the repository in the project environment.
+2. Review the operational data in `data/service_data.json`.
+3. Run the anomaly detection logic against the sample records.
+4. Confirm that abnormal records are identified using the thresholds in `src/anomaly_detector.py`.
+5. Run the pipeline in `src/aiops_pipeline.py`.
+6. Confirm that the detected anomalies are published by the producer to the shared topic.
+7. Confirm that the consumer reads the same messages back from that topic.
+8. Review the final output to confirm that the detected issue matches the operational problem shown in the data.
+
+### What another user should expect
+A successful run should show:
+- `records_processed`: 10
+- `anomalies_detected`: 2
+- `events_consumed`: 2
+
+This indicates the end-to-end pipeline is functioning correctly and that the detected anomalies have successfully traversed the event-processing workflow.
+
+### Additional note
+The key requirement is that the producer and consumer use the same topic instance. This is the critical design detail that makes the message flow work in the current in-memory event simulation.
+
 ---
 
 &copy; 2025 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)
