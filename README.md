@@ -204,6 +204,55 @@ The complete end-to-end flow is not currently working because the producer and c
 
 This verification confirms the core AIOps simulation design, while also showing a real integration issue in the current implementation.
 
+
+
+
+
+
+
+
+
+
+Task 5:
+
+## Workflow Investigation and Correction
+I investigated the event flow to confirm where the processing chain was breaking and applied the smallest correct fix that fits the existing architecture.
+
+### Problem identified
+The workflow was not fully connected. The producer and consumer were using different in-memory topic objects, so the anomaly message was published to one topic and never read from the other.
+
+### Affected component
+The issue was in `src/aiops_pipeline.py`, which created separate topics for the producer and consumer instead of reusing a single shared topic.
+
+### Cause
+The pipeline created:
+- `producer_topic = EventTopic("service-events")`
+- `consumer_topic = EventTopic("anomaly-events")`
+
+Because these were different objects, there was no shared message path between them.
+
+### Correction applied
+I corrected the workflow so the producer and consumer share the same `EventTopic` instance. This keeps the design simple and works with the current event-stream simulation architecture.
+
+### Verification
+I re-ran the workflow after the fix.
+
+Observed result:
+- `records_processed`: 10
+- `anomalies_detected`: 2
+- `events_consumed`: 2
+
+This confirms that the anomaly messages now travel from detection to publication to consumption successfully.
+
+### Final outcome
+The complete AIOps event flow is now working under the existing design:
+- anomaly detection identifies issues
+- the producer publishes the event
+- the topic stores the message
+- the consumer reads the message back
+
+The producer, topic, consumer, and message roles are all now working as intended in the current architecture.
+
 ---
 
 &copy; 2025 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)
